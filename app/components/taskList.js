@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -15,6 +16,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
+import { useWindowSize } from '@react-hook/window-size';
+const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
 const StyledModal = {
   position: 'absolute',
@@ -29,9 +32,7 @@ const StyledModal = {
 
 export default function TaskList({ data, searchQuery }) {
   const [complete, setComplete] = React.useState(data);
-  const [clickDelete, setDelete] = React.useState('false');
   const removeTask = (value) => () => {
-    setDelete(!clickDelete);
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
     if (currentIndex !== -1) {
@@ -39,6 +40,9 @@ export default function TaskList({ data, searchQuery }) {
       setChecked(newChecked);
     }
     setComplete(data.splice(data.indexOf(value), 1));
+    if (data.length === 0) {
+      setRun(true);
+    }
   };
 
   const [change, setChange] = React.useState('');
@@ -74,6 +78,9 @@ export default function TaskList({ data, searchQuery }) {
 
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
+
+  const { width, height } = useWindowSize();
+  const [run, setRun] = React.useState(false);
 
   if (data.length !== 0) {
     return (
@@ -118,7 +125,7 @@ export default function TaskList({ data, searchQuery }) {
                             <React.Fragment>
                               <Typography
                                 fontSize={18}
-                                maxWidth={'95%'}
+                                maxWidth={'fit-content'}
                                 whiteSpace={'wrap'}
                                 color={'#505050'}
                                 className={checked.includes(value) ? 'strikethrough' : ''}
@@ -195,23 +202,26 @@ export default function TaskList({ data, searchQuery }) {
     );
   } else {
     return (
-      <Box
-        m={3}
-        p={2}
-        display="flex"
-        flexDirection={'column'}
-        alignItems="center"
-        justifyContent="center"
-        borderRadius={1}
-        bgcolor={'#FFFFFF'}
-      >
-        <Typography fontSize={18} fontWeight={500} textAlign={'center'} color={'#505050'}>
-          There's nothing to do today! 🎉
-        </Typography>
-        <Typography fontSize={18} fontWeight={500} textAlign={'center'} color={'#505050'}>
-          Use the "New task" button to add tasks. 📝
-        </Typography>
-      </Box>
+      <div>
+        <Confetti width={width} height={height} run={run} recycle={false} gravity={0.25} />
+        <Box
+          m={3}
+          p={2}
+          display="flex"
+          flexDirection={'column'}
+          alignItems="center"
+          justifyContent="center"
+          borderRadius={1}
+          bgcolor={'#FFFFFF'}
+        >
+          <Typography fontSize={18} fontWeight={500} textAlign={'center'} color={'#505050'}>
+            There's nothing to do today! 🎉
+          </Typography>
+          <Typography fontSize={18} fontWeight={500} textAlign={'center'} color={'#505050'}>
+            Use the "New task" button to add tasks. 📝
+          </Typography>
+        </Box>
+      </div>
     );
   }
 }
