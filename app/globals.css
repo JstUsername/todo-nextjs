@@ -3,8 +3,28 @@ body {
   background-color: #f1f1f1;
 }
 
+/* ===== Strike task ===== */
 .strikethrough {
-  text-decoration: line-through;
+  position: relative;
+}
+.strikethrough::after {
+  content: '';
+  position: absolute;
+  height: 1px;
+  left: 0;
+  top: calc(50% - 1px);
+  background-color: #505050;
+}
+.strikethrough:defined:after {
+  animation: strike 0.25s ease-out forwards;
+}
+@keyframes strike {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* ===== Scrollbar ===== */
@@ -13,47 +33,38 @@ body {
   --sb-thumb-color: #8f8f8f;
   --sb-size: 6px;
 }
-
 body::-webkit-scrollbar {
   width: var(--sb-size);
 }
-
 body::-webkit-scrollbar-track {
   background: var(--sb-track-color);
   border-radius: 6px;
 }
-
 body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 6px;
 }
-
 @supports not selector(::-webkit-scrollbar) {
   body {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }
-
 textarea {
   --sb-track-color: rgba(0, 0, 0, 0);
   --sb-thumb-color: #8f8f8f;
   --sb-size: 4px;
 }
-
 textarea::-webkit-scrollbar {
   width: var(--sb-size);
 }
-
 textarea::-webkit-scrollbar-track {
   background: var(--sb-track-color);
   border-radius: 4px;
 }
-
 textarea::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 4px;
 }
-
 @supports not selector(::-webkit-scrollbar) {
   textarea {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
