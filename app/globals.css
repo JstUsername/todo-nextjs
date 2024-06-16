@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  background-color: #f1f1f1;
 }
 
 /* ===== Strike task ===== */
@@ -20,7 +19,7 @@ body {
 }
 @keyframes strike {
   from {
-    width: 0%;
+    width: 0;
   }
   to {
     width: 100%;
