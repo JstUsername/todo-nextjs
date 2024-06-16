@@ -1,5 +1,7 @@
 'use client';
-<link rel="icon" href="/favicon.ico" sizes="any" />;
+
+import { styled } from '@mui/material/styles';
+import Head from 'next/head';
 import AppNavBar from './components/NavBar';
 import TaskList from './components/TaskList';
 import { useState } from 'react';
@@ -17,9 +19,20 @@ export default function Root() {
     setSearch(query);
   };
   return (
-    <div>
-      <AppNavBar onClick={handleTask} onChange={handleSearch} />
-      <TaskList data={tasks} searchQuery={search} />
-    </div>
+    <>
+      <Head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />;
+      </Head>
+      <Page>
+        <AppNavBar onClick={handleTask} onChange={handleSearch} />
+        <TaskList data={tasks} searchQuery={search} />
+      </Page>
+    </>
   );
 }
+
+const Page = styled('div')`
+  margin: 0;
+  background-color: #f1f1f1;
+  height: 100vh;
+`;
