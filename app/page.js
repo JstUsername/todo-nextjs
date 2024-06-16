@@ -1,7 +1,7 @@
 'use client';
 <link rel="icon" href="/favicon.ico" sizes="any" />;
-import AppNavBar from './components/navBar';
-import TaskList from './components/taskList';
+import AppNavBar from './components/NavBar';
+import TaskList from './components/TaskList';
 import { useState } from 'react';
 
 let tasks = [];
