@@ -101,7 +101,7 @@ export default function AppNavBar({ onClick, onChange }) {
               variant="contained"
               color="success"
               onClick={handleOpen}
-              sx={{ color: '#FFFFFF', whiteSpace: 'nowrap', flexShrink: 0 }}
+              sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               New task
             </Button>
@@ -132,11 +132,12 @@ export default function AppNavBar({ onClick, onChange }) {
               </IconButton>
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 1, mt: 1 }}>
-              <TextField
+              <CssTextField
                 id="outlined-basic"
                 label="The task for today"
-                variant="outlined"
+                // variant="outlined"
                 size="small"
+                // color="field"
                 onChange={handleChange}
                 sx={{ width: '100%' }}
               />
@@ -145,7 +146,7 @@ export default function AppNavBar({ onClick, onChange }) {
                   variant="contained"
                   color="success"
                   onClick={handleTask}
-                  sx={{ color: '#FFFFFF', whiteSpace: 'nowrap', flexShrink: 0 }}
+                  sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
                 >
                   Add
                 </Button>
@@ -153,7 +154,7 @@ export default function AppNavBar({ onClick, onChange }) {
                   variant="contained"
                   color="error"
                   onClick={handleClose}
-                  sx={{ color: '#FFFFFF', whiteSpace: 'nowrap', flexShrink: 0 }}
+                  sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
                 >
                   Cancel
                 </Button>
@@ -199,7 +200,28 @@ const StyledModal = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '50%',
-  backgroundColor: 'primary.main',
+  backgroundColor: 'white',
   boxShadow: 24,
   p: 2,
 };
+
+const CssTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    color: '#505050',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#737373',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#737373',
+    },
+    '&:hover fieldset': {
+      borderColor: '#383838',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#505050',
+      borderWidth: 1,
+    },
+  },
+});
