@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,43 +17,7 @@ import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import TextField from '@mui/material/TextField';
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  paddingLeft: 16,
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: '#FFFFFF',
-  width: '100%',
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: 32,
-    transition: theme.transitions.create('width'),
-  },
-}));
-
-const StyledModal = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '50%',
-  bgcolor: 'white',
-  boxShadow: 24,
-  p: 2,
-};
+import theme from '@/app/theme';
 
 let newTask;
 let id = 0;
@@ -63,7 +27,7 @@ const handleChange = (event) => {
 };
 
 export default function AppNavBar({ onClick, onChange }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -81,12 +45,12 @@ export default function AppNavBar({ onClick, onChange }) {
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" color="main" sx={{ boxShadow: 'none' }}>
+        <AppBar position="static" color="primary" sx={{ boxShadow: 'none' }}>
           <Toolbar>
-            <IconButton size="large" edge="start" aria-label="menu" color={'#505050'} sx={{ mr: 2 }}>
+            <IconButton size="large" edge="start" aria-label="menu" color="primary.dark" sx={{ mr: 2 }}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" color={'#505050'} sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" component="div" color="primary.dark" sx={{ flexGrow: 1 }}>
               To-do list
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
@@ -94,7 +58,7 @@ export default function AppNavBar({ onClick, onChange }) {
               <IconButton
                 size="large"
                 edge="start"
-                color={'#505050'}
+                color="primary.dark"
                 aria-label="telegram"
                 href="https://t.me/JstUser"
                 target="_blank"
@@ -104,7 +68,7 @@ export default function AppNavBar({ onClick, onChange }) {
               <IconButton
                 size="large"
                 edge="start"
-                color={'#505050'}
+                color="primary.dark"
                 aria-label="github"
                 href="https://github.com/JstUsername/todo-nextjs"
                 target="_blank"
@@ -122,8 +86,8 @@ export default function AppNavBar({ onClick, onChange }) {
           }}
         >
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-            <Search>
-              <SearchIconWrapper sx={{ color: '#505050' }}>
+            <Search theme={theme}>
+              <SearchIconWrapper theme={theme}>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
@@ -132,7 +96,7 @@ export default function AppNavBar({ onClick, onChange }) {
                 onChange={handleSearch}
                 sx={{ width: '100%' }}
               />
-            </Search>{' '}
+            </Search>
             <Button
               variant="contained"
               color="success"
@@ -160,10 +124,10 @@ export default function AppNavBar({ onClick, onChange }) {
         <Fade in={open}>
           <Box sx={StyledModal}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography id="transition-modal-title" variant="h6" component="h2" color={'#505050'}>
+              <Typography id="transition-modal-title" variant="h6" component="h2" color="primary.dark">
                 New task
               </Typography>
-              <IconButton size="large" edge="start" color={'#505050'} aria-label="close" onClick={handleClose}>
+              <IconButton size="large" edge="start" color="primary.dark" aria-label="close" onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             </Box>
@@ -201,3 +165,41 @@ export default function AppNavBar({ onClick, onChange }) {
     </div>
   );
 }
+
+const Search = styled('div')`
+  position: relative;
+  padding-left: 16px;
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.palette.primary.main};
+  width: 100%;
+`;
+
+const SearchIconWrapper = styled('div')`
+  height: 100%;
+  position: absolute;
+  display: flex;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+  color: ${(props) => props.theme.palette.primary.dark};
+`;
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: 32,
+    transition: theme.transitions.create('width'),
+  },
+}));
+
+const StyledModal = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '50%',
+  backgroundColor: 'primary.main',
+  boxShadow: 24,
+  p: 2,
+};
