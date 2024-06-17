@@ -1,13 +1,9 @@
 'use client';
-import * as React from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
@@ -15,23 +11,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { useWindowSize } from '@react-hook/window-size';
+import TaskItem from './TaskItem';
+import { styled } from '@mui/material/styles';
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
-const StyledModal = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '50%',
-  bgcolor: 'white',
-  boxShadow: 24,
-  p: 2,
-};
-
 export default function TaskList({ data, searchQuery }) {
-  const [complete, setComplete] = React.useState(data);
+  const [complete, setComplete] = useState(data);
   const removeTask = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -45,7 +31,7 @@ export default function TaskList({ data, searchQuery }) {
     }
   };
 
-  const [change, setChange] = React.useState('');
+  const [change, setChange] = useState('');
   const handleClickChange = (value) => () => {
     const currentIndex = data.indexOf(value);
     setChange(data[currentIndex]);
@@ -64,7 +50,7 @@ export default function TaskList({ data, searchQuery }) {
     setOpen(false);
   };
 
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = useState([]);
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -76,11 +62,11 @@ export default function TaskList({ data, searchQuery }) {
     setChecked(newChecked);
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
   const { width, height } = useWindowSize();
-  const [run, setRun] = React.useState(false);
+  const [run, setRun] = useState(false);
 
   if (data.length !== 0) {
     return (
@@ -88,56 +74,17 @@ export default function TaskList({ data, searchQuery }) {
         <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>
           <List dense sx={{ width: '100%' }} disablePadding>
             {data
-              .filter((val) => (searchQuery != '' ? val.text.toLowerCase().includes(searchQuery.toLowerCase()) : val))
+              .filter((val) => (searchQuery !== '' ? val.text.toLowerCase().includes(searchQuery.toLowerCase()) : val))
               .map((value) => {
-                const labelId = `checkbox-list-secondary-label-${value.id}`;
                 return (
                   <Fade in={complete} key={value.id}>
-                    <ListItem
-                      key={value.id}
-                      secondaryAction={
-                        <Box sx={{ display: 'flex', gap: 2, mr: -1 }}>
-                          <Checkbox
-                            edge="end"
-                            size="medium"
-                            onChange={handleToggle(value)}
-                            checked={checked.includes(value)}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                            sx={{ width: '48px', color: '#505050' }}
-                          />
-                          <IconButton
-                            size="large"
-                            edge="start"
-                            color={'error'}
-                            aria-label="delete"
-                            onClick={removeTask(value)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Box>
-                      }
-                      disablePadding
-                    >
-                      <ListItemButton onClick={handleClickChange(value)} sx={{ p: 2 }}>
-                        <ListItemText
-                          id={labelId}
-                          primary={
-                            <React.Fragment>
-                              <Typography
-                                fontSize={18}
-                                maxWidth={'fit-content'}
-                                whiteSpace={'wrap'}
-                                color={'#505050'}
-                                className={checked.includes(value) ? 'strikethrough' : ''}
-                                sx={{ wordWrap: 'break-word' }}
-                              >
-                                {value.text}
-                              </Typography>
-                            </React.Fragment>
-                          }
-                        />
-                      </ListItemButton>
-                    </ListItem>
+                    <TaskItem
+                      value={value}
+                      handleToggle={handleToggle}
+                      checked={checked}
+                      handleClickChange={handleClickChange}
+                      removeTask={removeTask}
+                    />
                   </Fade>
                 );
               })}
@@ -167,11 +114,10 @@ export default function TaskList({ data, searchQuery }) {
                 </IconButton>
               </Box>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 1, mt: 1 }}>
-                <TextField
+                <CssTextField
                   id="outlined-basic"
                   label="The task for today"
                   defaultValue={change.text}
-                  variant="outlined"
                   size="small"
                   onChange={handleChange}
                   sx={{ width: '100%' }}
@@ -225,3 +171,35 @@ export default function TaskList({ data, searchQuery }) {
     );
   }
 }
+
+const StyledModal = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '50%',
+  backgroundColor: 'primary.main',
+  boxShadow: 24,
+  p: 2,
+};
+
+const CssTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    color: '#505050',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#737373',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#737373',
+    },
+    '&:hover fieldset': {
+      borderColor: '#383838',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#505050',
+      borderWidth: 1,
+    },
+  },
+});
