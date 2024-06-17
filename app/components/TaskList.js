@@ -121,7 +121,6 @@ export default function TaskList({ data, searchQuery }) {
                   defaultValue={change.text}
                   size="small"
                   onChange={handleChange}
-                  sx={{ width: '100%' }}
                 />
                 <Box sx={{ display: 'flex', width: '100%', gap: 1, justifyContent: 'end' }}>
                   <Button
@@ -187,23 +186,24 @@ const StyledModal = styled(Box)`
   padding: 16px;
 `;
 
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#505050',
+const CssTextField = styled(TextField)`
+  width: 100%;
+  & label.Mui-focused {
+    color: #505050;
   },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#737373',
+  & .MuiInput-underline:after {
+    border-bottom-color: #737373;
   },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#737373',
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: #737373;
     },
-    '&:hover fieldset': {
-      borderColor: '#383838',
+    &:hover fieldset {
+      border-color: #383838;
     },
-    '&.Mui-focused fieldset': {
-      borderColor: '#505050',
-      borderWidth: 1,
+    &.Mui-focused fieldset {
+      border-color: #505050;
+      border-width: 1px;
     },
   },
-});
+`;
