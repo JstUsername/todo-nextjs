@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useWindowSize } from '@react-hook/window-size';
 import TaskItem from './TaskItem';
 import { styled } from '@mui/material/styles';
+import theme from '@/app/theme';
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
 export default function TaskList({ data, searchQuery }) {
@@ -104,12 +105,12 @@ export default function TaskList({ data, searchQuery }) {
           }}
         >
           <Fade in={open}>
-            <Box sx={StyledModal}>
+            <StyledModal theme={theme}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography id="transition-modal-title" variant="h6" component="h2">
+                <Typography id="transition-modal-title" variant="h6" component="h2" color="primary.dark">
                   Change task
                 </Typography>
-                <IconButton size="large" edge="start" color="inherit" aria-label="close" onClick={handleClose}>
+                <IconButton size="large" edge="start" color="primary.dark" aria-label="close" onClick={handleClose}>
                   <CloseIcon />
                 </IconButton>
               </Box>
@@ -141,7 +142,7 @@ export default function TaskList({ data, searchQuery }) {
                   </Button>
                 </Box>
               </Box>
-            </Box>
+            </StyledModal>
           </Fade>
         </Modal>
       </div>
@@ -154,16 +155,16 @@ export default function TaskList({ data, searchQuery }) {
           m={3}
           p={2}
           display="flex"
-          flexDirection={'column'}
+          flexDirection="column"
           alignItems="center"
           justifyContent="center"
           borderRadius={1}
           bgcolor={'#FFFFFF'}
         >
-          <Typography fontSize={18} fontWeight={500} textAlign={'center'} color={'#505050'}>
+          <Typography fontSize={18} fontWeight={500} textAlign="center" color="#505050">
             There's nothing to do today! 🎉
           </Typography>
-          <Typography fontSize={18} fontWeight={500} textAlign={'center'} color={'#505050'}>
+          <Typography fontSize={18} fontWeight={500} textAlign="center" color="#505050">
             Use the "New task" button to add tasks. 📝
           </Typography>
         </Box>
@@ -172,16 +173,19 @@ export default function TaskList({ data, searchQuery }) {
   }
 }
 
-const StyledModal = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '50%',
-  backgroundColor: 'primary.main',
-  boxShadow: 24,
-  p: 2,
-};
+const StyledModal = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  background-color: ${(props) => props.theme.palette.primary.main};
+  box-shadow:
+    0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  padding: 16px;
+`;
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {

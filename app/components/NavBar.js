@@ -122,7 +122,7 @@ export default function AppNavBar({ onClick, onChange }) {
         }}
       >
         <Fade in={open}>
-          <Box sx={StyledModal}>
+          <StyledModal>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography id="transition-modal-title" variant="h6" component="h2" color="primary.dark">
                 New task
@@ -135,9 +135,7 @@ export default function AppNavBar({ onClick, onChange }) {
               <CssTextField
                 id="outlined-basic"
                 label="The task for today"
-                // variant="outlined"
                 size="small"
-                // color="field"
                 onChange={handleChange}
                 sx={{ width: '100%' }}
               />
@@ -160,7 +158,7 @@ export default function AppNavBar({ onClick, onChange }) {
                 </Button>
               </Box>
             </Box>
-          </Box>
+          </StyledModal>
         </Fade>
       </Modal>
     </div>
@@ -194,16 +192,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const StyledModal = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '50%',
-  backgroundColor: 'white',
-  boxShadow: 24,
-  p: 2,
-};
+const StyledModal = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  background-color: ${(props) => props.theme.palette.primary.main};
+  box-shadow:
+    0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  padding: 16px;
+`;
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
