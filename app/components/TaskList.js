@@ -17,8 +17,7 @@ import { styled } from '@mui/material/styles';
 import theme from '@/app/theme';
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
-export default function TaskList({ data, searchQuery }) {
-  const [complete, setComplete] = useState(data);
+export default function TaskList({ complete, setComplete, searchQuery }) {
   const removeTask = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -26,27 +25,28 @@ export default function TaskList({ data, searchQuery }) {
       newChecked.splice(currentIndex, 1);
       setChecked(newChecked);
     }
-    setComplete(data.splice(data.indexOf(value), 1));
-    if (data.length === 0) {
+    const newComplete = complete.filter((val) => val !== value);
+    setComplete(newComplete);
+    if (newComplete.length === 0) {
       setRun(true);
     }
   };
 
   const [change, setChange] = useState('');
   const handleClickChange = (value) => () => {
-    const currentIndex = data.indexOf(value);
-    setChange(data[currentIndex]);
+    const currentIndex = complete.indexOf(value);
+    setChange(complete[currentIndex]);
     setOpen(true);
   };
 
-  let changeTask;
+  const [changeTask, setChangeTask] = useState('');
   const handleChange = (event) => {
-    changeTask = event.target.value;
+    setChangeTask(event.target.value);
   };
 
   const handleSaveChange = () => {
     if (changeTask !== change && changeTask !== undefined) {
-      setComplete(data.splice(data.indexOf(change), 1, { id: change.id, text: changeTask }));
+      setComplete(complete.map((val) => (val.id === change.id ? { id: change.id, text: changeTask } : val)));
     }
     setOpen(false);
   };
@@ -69,12 +69,12 @@ export default function TaskList({ data, searchQuery }) {
   const { width, height } = useWindowSize();
   const [run, setRun] = useState(false);
 
-  if (data.length !== 0) {
+  if (complete.length !== 0) {
     return (
       <div>
         <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>
           <List dense sx={{ width: '100%' }} disablePadding>
-            {data
+            {complete
               .filter((val) => (searchQuery !== '' ? val.text.toLowerCase().includes(searchQuery.toLowerCase()) : val))
               .map((value) => {
                 return (
