@@ -1,25 +1,16 @@
 'use client';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Head from 'next/head';
 import AppNavBar from './components/NavBar';
 import TaskList from './components/TaskList';
-import { useState } from 'react';
-import ModalAdd from '@/app/components/ModalAdd';
+import ModalAdd from './components/ModalAdd';
+import { ContextAdd, ContextChange, ContextChangeTask, ContextComplete } from './components/Context';
+import ModalChange from '@/app/components/ModalChange';
 
 export default function Root() {
-  const [complete, setComplete] = useState([]);
-  const [task, setTask] = useState('');
-  const handleTask = (task) => {
-    setTask(task);
-    setComplete([...complete, task]);
-  };
-
   const [search, setSearch] = useState('');
   const handleSearch = (query) => setSearch(query);
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -27,9 +18,18 @@ export default function Root() {
         <link rel="icon" href="/favicon.ico" sizes="any" />;
       </Head>
       <Page>
-        <AppNavBar handleOpen={handleOpen} />
-        <ModalAdd onClick={handleTask} handleClose={handleClose} open={open} />
-        <TaskList complete={complete} setComplete={setComplete} searchQuery={search} />
+        <ContextComplete>
+          <ContextAdd>
+            <AppNavBar onChange={handleSearch} />
+            <ModalAdd />
+          </ContextAdd>
+          <ContextChange>
+            <ContextChangeTask>
+              <TaskList searchQuery={search} />
+              <ModalChange />
+            </ContextChangeTask>
+          </ContextChange>
+        </ContextComplete>
       </Page>
     </>
   );
