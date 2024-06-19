@@ -1,4 +1,5 @@
 'use client';
+import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Backdrop from '@mui/material/Backdrop';
@@ -9,25 +10,40 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
+import { CompleteContext, OpenContext, SetCompleteContext, SetOpenContext } from './Context';
 
 let newTask;
+
 const handleChange = (event) => {
   newTask = { id: new Date().getTime(), text: event.target.value };
 };
 
-export default function ModalAdd({ onClick, handleClose, open }) {
+export default function ModalAdd() {
+  const open = useContext(OpenContext);
+  const setOpen = useContext(SetOpenContext);
+  const complete = useContext(CompleteContext);
+  const setComplete = useContext(SetCompleteContext);
+
+  const [task, setTask] = useState('');
+
   const handleTask = () => {
     if (newTask !== undefined) {
       onClick(newTask);
-      handleClose();
+      setOpen(false);
     }
   };
+
+  const onClick = (task) => {
+    setTask(task);
+    setComplete([...complete, task]);
+  };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{
@@ -42,7 +58,13 @@ export default function ModalAdd({ onClick, handleClose, open }) {
             <Typography id="transition-modal-title" variant="h6" component="h2" color="primary.dark">
               New task
             </Typography>
-            <IconButton size="large" edge="start" color="primary.dark" aria-label="close" onClick={handleClose}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="primary.dark"
+              aria-label="close"
+              onClick={() => setOpen(false)}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
@@ -60,7 +82,7 @@ export default function ModalAdd({ onClick, handleClose, open }) {
               <Button
                 variant="contained"
                 color="error"
-                onClick={handleClose}
+                onClick={() => setOpen(false)}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
                 Cancel
