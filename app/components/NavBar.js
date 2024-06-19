@@ -1,4 +1,5 @@
 'use client';
+import { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,8 +13,11 @@ import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import theme from '@/app/theme';
+import { SetOpenContext } from './Context';
 
-export default function AppNavBar({ onChange, handleOpen }) {
+export default function AppNavBar({ onChange }) {
+  const setOpen = useContext(SetOpenContext);
+
   const handleSearch = (event) => {
     onChange(event.target.value);
   };
@@ -76,7 +80,7 @@ export default function AppNavBar({ onChange, handleOpen }) {
             <Button
               variant="contained"
               color="success"
-              onClick={handleOpen}
+              onClick={() => setOpen(true)}
               sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               New task
