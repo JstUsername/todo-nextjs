@@ -8,8 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 
-const TaskItem = forwardRef((props, ref) => {
-  const { value, handleToggle, checked, handleClickChange, removeTask } = props;
+const TaskItem = forwardRef(({ value, handleToggle, checked, handleClickChange, removeTask }, ref) => {
   const labelId = `checkbox-list-secondary-label-${value.id}`;
   return (
     <div ref={ref}>
