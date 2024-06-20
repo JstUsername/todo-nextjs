@@ -10,32 +10,24 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
-import { CompleteContext, OpenContext, SetCompleteContext, SetOpenContext } from './Context';
-
-let newTask;
-
-const handleChange = (event) => {
-  newTask = { id: new Date().getTime(), text: event.target.value };
-};
+import { OpenContext, SetCompleteContext, SetOpenContext } from './Context';
 
 export default function ModalAdd() {
   const open = useContext(OpenContext);
   const setOpen = useContext(SetOpenContext);
-  const complete = useContext(CompleteContext);
   const setComplete = useContext(SetCompleteContext);
 
-  const [task, setTask] = useState('');
+  const [newTask, setNewTask] = useState({});
 
   const handleTask = () => {
     if (newTask !== undefined) {
-      onClick(newTask);
+      setComplete((prev) => [...prev, newTask]);
       setOpen(false);
     }
   };
 
-  const onClick = (task) => {
-    setTask(task);
-    setComplete([...complete, task]);
+  const handleChange = (event) => {
+    setNewTask({ id: new Date().getTime(), text: event.target.value });
   };
 
   return (
@@ -69,7 +61,7 @@ export default function ModalAdd() {
             </IconButton>
           </Box>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 1, mt: 1 }}>
-            <CssTextField id="outlined-basic" label="The task for today" size="small" onChange={handleChange} />
+            <CssTextField id="outlined-basic" label="The task for today" size="small" onBlur={handleChange} />
             <Box sx={{ display: 'flex', width: '100%', gap: 1, justifyContent: 'end' }}>
               <Button
                 variant="contained"
