@@ -9,7 +9,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
-import { SetToDoContext, ModalContext, SetModalContext, ChangeTaskContext } from './Context';
+import { SetToDoContext } from './providers/ContextToDo';
+import { ModalContext, SetModalContext } from './providers/ContextModal';
+import { ChangeTaskContext } from './providers/ContextChangeTask';
 
 export default function ModalAdd() {
   const change = useContext(ChangeTaskContext);
@@ -45,10 +47,6 @@ export default function ModalAdd() {
       setOpen({ state: false, type: '' });
     }
   };
-
-  useEffect(() => {
-    console.log('Modal Rerender');
-  });
 
   return (
     <Modal

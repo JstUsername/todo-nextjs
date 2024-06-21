@@ -13,7 +13,8 @@ import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import theme from '@/app/theme';
-import { SetModalContext, SetSearchContext } from './Context';
+import { SetModalContext } from './providers/ContextModal';
+import { SetSearchContext } from './providers/ContextSearch';
 
 export default function AppNavBar() {
   const setOpen = useContext(SetModalContext);
@@ -22,10 +23,6 @@ export default function AppNavBar() {
   const handleSearch = debounce((event) => {
     setSearch(event.target.value);
   }, 500);
-
-  useEffect(() => {
-    console.log('Render navbar');
-  });
 
   return (
     <div>

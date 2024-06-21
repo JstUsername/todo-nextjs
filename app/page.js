@@ -4,7 +4,10 @@ import Head from 'next/head';
 import AppNavBar from './components/NavBar';
 import TaskList from './components/TaskList';
 import Modal from './components/Modal';
-import { ContextModal, ContextChangeTask, ContextToDo, ContextSearch } from './components/Context';
+import { ContextModal } from './components/providers/ContextModal';
+import { ContextChangeTask } from './components/providers/ContextChangeTask';
+import { ContextToDo } from './components/providers/ContextToDo';
+import { ContextSearch } from './components/providers/ContextSearch';
 
 export default function Root() {
   return (

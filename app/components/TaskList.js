@@ -4,8 +4,11 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import Fade from '@mui/material/Fade';
 import TaskItem from './TaskItem';
-import { ToDoContext, SetToDoContext, SetModalContext, SetChangeTaskContext, SearchContext } from './Context';
 import Confetti from './Confetti';
+import { ToDoContext, SetToDoContext } from './providers/ContextToDo';
+import { SetModalContext } from './providers/ContextModal';
+import { SetChangeTaskContext } from './providers/ContextChangeTask';
+import { SearchContext } from './providers/ContextSearch';
 
 export default function TaskList() {
   const complete = useContext(ToDoContext);
