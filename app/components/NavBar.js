@@ -1,4 +1,3 @@
-'use client';
 import { useContext, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 import { styled } from '@mui/material/styles';
@@ -14,15 +13,19 @@ import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import theme from '@/app/theme';
-import { SetOpenContext, SetSearchContext } from './Context';
+import { SetModalContext, SetSearchContext } from './Context';
 
 export default function AppNavBar() {
-  const setOpen = useContext(SetOpenContext);
+  const setOpen = useContext(SetModalContext);
   const setSearch = useContext(SetSearchContext);
 
   const handleSearch = debounce((event) => {
     setSearch(event.target.value);
   }, 500);
+
+  useEffect(() => {
+    console.log('Render navbar');
+  });
 
   return (
     <div>
@@ -82,7 +85,7 @@ export default function AppNavBar() {
             <Button
               variant="contained"
               color="success"
-              onClick={() => setOpen(true)}
+              onClick={() => setOpen({ state: true, type: 'add' })}
               sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               New task

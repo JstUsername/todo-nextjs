@@ -3,9 +3,8 @@ import { styled } from '@mui/material/styles';
 import Head from 'next/head';
 import AppNavBar from './components/NavBar';
 import TaskList from './components/TaskList';
-import ModalAdd from './components/ModalAdd';
-import { ContextAdd, ContextChange, ContextChangeTask, ContextComplete, ContextSearch } from './components/Context';
-import ModalChange from '@/app/components/ModalChange';
+import Modal from './components/Modal';
+import { ContextModal, ContextChangeTask, ContextToDo, ContextSearch } from './components/Context';
 
 export default function Root() {
   return (
@@ -14,20 +13,17 @@ export default function Root() {
         <link rel="icon" href="/favicon.ico" sizes="any" />;
       </Head>
       <Page>
-        <ContextComplete>
+        <ContextToDo>
           <ContextSearch>
-            <ContextAdd>
+            <ContextModal>
               <AppNavBar />
-              <ModalAdd />
-            </ContextAdd>
-            <ContextChange>
               <ContextChangeTask>
                 <TaskList />
-                <ModalChange />
+                <Modal />
               </ContextChangeTask>
-            </ContextChange>
+            </ContextModal>
           </ContextSearch>
-        </ContextComplete>
+        </ContextToDo>
       </Page>
     </>
   );

@@ -1,17 +1,16 @@
-'use client';
 import { useCallback, useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import Fade from '@mui/material/Fade';
 import TaskItem from './TaskItem';
-import { CompleteContext, SetCompleteContext, SetChangeContext, SetChangeTaskContext, SearchContext } from './Context';
+import { ToDoContext, SetToDoContext, SetModalContext, SetChangeTaskContext, SearchContext } from './Context';
 import Confetti from './Confetti';
 
 export default function TaskList() {
-  const complete = useContext(CompleteContext);
-  const setComplete = useContext(SetCompleteContext);
-  const setOpen = useContext(SetChangeContext);
+  const complete = useContext(ToDoContext);
+  const setComplete = useContext(SetToDoContext);
+  const setOpen = useContext(SetModalContext);
   const setChange = useContext(SetChangeTaskContext);
   const search = useContext(SearchContext);
 
@@ -32,7 +31,7 @@ export default function TaskList() {
     (value) => () => {
       const currentIndex = complete.indexOf(value);
       setChange(complete[currentIndex]);
-      setOpen(true);
+      setOpen({ state: true, type: 'change' });
     },
     [complete],
   );

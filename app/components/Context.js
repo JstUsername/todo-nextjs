@@ -1,38 +1,26 @@
 import { useState, createContext } from 'react';
 
-export const OpenContext = createContext(null);
-export const SetOpenContext = createContext(null);
+export const ModalContext = createContext(null);
+export const SetModalContext = createContext(null);
 
-export const ContextAdd = ({ children }) => {
-  const [open, setOpen] = useState(false);
+export const ContextModal = ({ children }) => {
+  const [open, setOpen] = useState({ state: false, type: '' });
   return (
-    <OpenContext.Provider value={open}>
-      <SetOpenContext.Provider value={setOpen}>{children}</SetOpenContext.Provider>
-    </OpenContext.Provider>
+    <ModalContext.Provider value={open}>
+      <SetModalContext.Provider value={setOpen}>{children}</SetModalContext.Provider>
+    </ModalContext.Provider>
   );
 };
 
-export const ChangeContext = createContext(null);
-export const SetChangeContext = createContext(null);
+export const ToDoContext = createContext(null);
+export const SetToDoContext = createContext(null);
 
-export const ContextChange = ({ children }) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <ChangeContext.Provider value={open}>
-      <SetChangeContext.Provider value={setOpen}>{children}</SetChangeContext.Provider>
-    </ChangeContext.Provider>
-  );
-};
-
-export const CompleteContext = createContext(null);
-export const SetCompleteContext = createContext(null);
-
-export const ContextComplete = ({ children }) => {
+export const ContextToDo = ({ children }) => {
   const [complete, setComplete] = useState([]);
   return (
-    <CompleteContext.Provider value={complete}>
-      <SetCompleteContext.Provider value={setComplete}>{children}</SetCompleteContext.Provider>
-    </CompleteContext.Provider>
+    <ToDoContext.Provider value={complete}>
+      <SetToDoContext.Provider value={setComplete}>{children}</SetToDoContext.Provider>
+    </ToDoContext.Provider>
   );
 };
 
