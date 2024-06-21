@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import debounce from 'lodash.debounce';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
