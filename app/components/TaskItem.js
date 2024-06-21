@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 
-const TaskItem = forwardRef(({ value, handleToggle, checked, handleClickChange, removeTask }, ref) => {
+const TaskItem = forwardRef(({ value, handleToggle, handleClickChange, removeTask }, ref) => {
   const labelId = `checkbox-list-secondary-label-${value.id}`;
   return (
     <div ref={ref}>
@@ -21,7 +21,7 @@ const TaskItem = forwardRef(({ value, handleToggle, checked, handleClickChange, 
               size="medium"
               color="success"
               onChange={handleToggle(value)}
-              checked={checked.includes(value)}
+              checked={value.checked === true}
               inputProps={{ 'aria-labelledby': labelId }}
               sx={{ width: '48px', color: '#505050' }}
             />
@@ -42,7 +42,7 @@ const TaskItem = forwardRef(({ value, handleToggle, checked, handleClickChange, 
                   maxWidth={'fit-content'}
                   whiteSpace={'wrap'}
                   color={'primary.dark'}
-                  className={checked.includes(value) ? 'strikethrough' : ''}
+                  className={value.checked === true ? 'strikethrough' : ''}
                   sx={{ wordWrap: 'break-word' }}
                 >
                   {value.text}

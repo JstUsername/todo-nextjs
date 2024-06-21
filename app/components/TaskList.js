@@ -17,12 +17,6 @@ export default function TaskList({ searchQuery }) {
   const setChange = useContext(SetChangeTaskContext);
 
   const removeTask = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    if (currentIndex !== -1) {
-      newChecked.splice(currentIndex, 1);
-      setChecked(newChecked);
-    }
     const newComplete = complete.filter((val) => val !== value);
     setComplete(newComplete);
     if (newComplete.length === 0) {
@@ -30,23 +24,16 @@ export default function TaskList({ searchQuery }) {
     }
   };
 
-  // const [change, setChange] = useState('');
   const handleClickChange = (value) => () => {
     const currentIndex = complete.indexOf(value);
     setChange(complete[currentIndex]);
     setOpen(true);
   };
 
-  const [checked, setChecked] = useState([]);
   const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
+    const newComplete = (arr) =>
+      arr.map((val) => (val === value ? { id: val.id, text: val.text, checked: !val.checked } : val));
+    setComplete((prev) => newComplete(prev));
   };
 
   const { width, height } = useWindowSize();
@@ -61,11 +48,10 @@ export default function TaskList({ searchQuery }) {
               .filter((val) => (searchQuery !== '' ? val.text.toLowerCase().includes(searchQuery.toLowerCase()) : val))
               .map((value) => {
                 return (
-                  <Fade in={complete} key={value.id}>
+                  <Fade key={value.id}>
                     <TaskItem
                       value={value}
                       handleToggle={handleToggle}
-                      checked={checked}
                       handleClickChange={handleClickChange}
                       removeTask={removeTask}
                     />

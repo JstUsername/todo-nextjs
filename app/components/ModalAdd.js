@@ -27,7 +27,7 @@ export default function ModalAdd() {
   };
 
   const handleChange = (event) => {
-    setNewTask({ id: new Date().getTime(), text: event.target.value });
+    setNewTask({ id: new Date().getTime(), text: event.target.value, checked: false });
   };
 
   return (
