@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -21,11 +21,7 @@ export default function TaskList() {
 
   const removeTask = useCallback(
     (value) => () => {
-      const newComplete = complete.filter((val) => val !== value);
-      setComplete(newComplete);
-      if (newComplete.length === 0) {
-        setRun(true);
-      }
+      setComplete((prev) => prev.filter((val) => val !== value));
     },
     [complete],
   );
@@ -47,6 +43,12 @@ export default function TaskList() {
     },
     [complete],
   );
+
+  useEffect(() => {
+    if (complete.length !== 0) {
+      setRun(true);
+    }
+  });
 
   if (complete.length !== 0) {
     return (
