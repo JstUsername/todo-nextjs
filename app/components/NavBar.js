@@ -1,5 +1,6 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import debounce from 'lodash.debounce';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,14 +14,15 @@ import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import theme from '@/app/theme';
-import { SetOpenContext } from './Context';
+import { SetOpenContext, SetSearchContext } from './Context';
 
-export default function AppNavBar({ onChange }) {
+export default function AppNavBar() {
   const setOpen = useContext(SetOpenContext);
+  const setSearch = useContext(SetSearchContext);
 
-  const handleSearch = (event) => {
-    onChange(event.target.value);
-  };
+  const handleSearch = debounce((event) => {
+    setSearch(event.target.value);
+  }, 500);
 
   return (
     <div>

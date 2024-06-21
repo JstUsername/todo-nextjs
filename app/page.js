@@ -1,17 +1,13 @@
 'use client';
-import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Head from 'next/head';
 import AppNavBar from './components/NavBar';
 import TaskList from './components/TaskList';
 import ModalAdd from './components/ModalAdd';
-import { ContextAdd, ContextChange, ContextChangeTask, ContextComplete } from './components/Context';
+import { ContextAdd, ContextChange, ContextChangeTask, ContextComplete, ContextSearch } from './components/Context';
 import ModalChange from '@/app/components/ModalChange';
 
 export default function Root() {
-  const [search, setSearch] = useState('');
-  const handleSearch = (query) => setSearch(query);
-
   return (
     <>
       <Head>
@@ -19,16 +15,18 @@ export default function Root() {
       </Head>
       <Page>
         <ContextComplete>
-          <ContextAdd>
-            <AppNavBar onChange={handleSearch} />
-            <ModalAdd />
-          </ContextAdd>
-          <ContextChange>
-            <ContextChangeTask>
-              <TaskList searchQuery={search} />
-              <ModalChange />
-            </ContextChangeTask>
-          </ContextChange>
+          <ContextSearch>
+            <ContextAdd>
+              <AppNavBar />
+              <ModalAdd />
+            </ContextAdd>
+            <ContextChange>
+              <ContextChangeTask>
+                <TaskList />
+                <ModalChange />
+              </ContextChangeTask>
+            </ContextChange>
+          </ContextSearch>
         </ContextComplete>
       </Page>
     </>

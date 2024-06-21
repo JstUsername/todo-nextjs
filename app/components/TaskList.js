@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,14 +7,15 @@ import List from '@mui/material/List';
 import Fade from '@mui/material/Fade';
 import { useWindowSize } from '@react-hook/window-size';
 import TaskItem from './TaskItem';
-import { CompleteContext, SetCompleteContext, SetChangeContext, SetChangeTaskContext } from './Context';
+import { CompleteContext, SetCompleteContext, SetChangeContext, SetChangeTaskContext, SearchContext } from './Context';
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
 
-export default function TaskList({ searchQuery }) {
+export default function TaskList() {
   const complete = useContext(CompleteContext);
   const setComplete = useContext(SetCompleteContext);
   const setOpen = useContext(SetChangeContext);
   const setChange = useContext(SetChangeTaskContext);
+  const search = useContext(SearchContext);
 
   const removeTask = useCallback(
     (value) => () => {
@@ -54,7 +55,7 @@ export default function TaskList({ searchQuery }) {
         <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>
           <List dense sx={{ width: '100%' }} disablePadding>
             {complete
-              .filter((val) => (searchQuery !== '' ? val.text.toLowerCase().includes(searchQuery.toLowerCase()) : val))
+              .filter((val) => (search !== '' ? val.text.toLowerCase().includes(search.toLowerCase()) : val))
               .map((value) => {
                 return (
                   <Fade key={value.id}>
