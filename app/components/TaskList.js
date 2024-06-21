@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,25 +16,34 @@ export default function TaskList({ searchQuery }) {
   const setOpen = useContext(SetChangeContext);
   const setChange = useContext(SetChangeTaskContext);
 
-  const removeTask = (value) => () => {
-    const newComplete = complete.filter((val) => val !== value);
-    setComplete(newComplete);
-    if (newComplete.length === 0) {
-      setRun(true);
-    }
-  };
+  const removeTask = useCallback(
+    (value) => () => {
+      const newComplete = complete.filter((val) => val !== value);
+      setComplete(newComplete);
+      if (newComplete.length === 0) {
+        setRun(true);
+      }
+    },
+    [complete],
+  );
 
-  const handleClickChange = (value) => () => {
-    const currentIndex = complete.indexOf(value);
-    setChange(complete[currentIndex]);
-    setOpen(true);
-  };
+  const handleClickChange = useCallback(
+    (value) => () => {
+      const currentIndex = complete.indexOf(value);
+      setChange(complete[currentIndex]);
+      setOpen(true);
+    },
+    [complete],
+  );
 
-  const handleToggle = (value) => () => {
-    const newComplete = (arr) =>
-      arr.map((val) => (val === value ? { id: val.id, text: val.text, checked: !val.checked } : val));
-    setComplete((prev) => newComplete(prev));
-  };
+  const handleToggle = useCallback(
+    (value) => () => {
+      const newComplete = (arr) =>
+        arr.map((val) => (val === value ? { id: val.id, text: val.text, checked: !val.checked } : val));
+      setComplete((prev) => newComplete(prev));
+    },
+    [complete],
+  );
 
   const { width, height } = useWindowSize();
   const [run, setRun] = useState(false);
