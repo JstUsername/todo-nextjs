@@ -1,14 +1,12 @@
 'use client';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+import { useCallback, useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import Fade from '@mui/material/Fade';
-import { useWindowSize } from '@react-hook/window-size';
 import TaskItem from './TaskItem';
 import { CompleteContext, SetCompleteContext, SetChangeContext, SetChangeTaskContext, SearchContext } from './Context';
-const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
+import Confetti from './Confetti';
 
 export default function TaskList() {
   const complete = useContext(CompleteContext);
@@ -16,6 +14,8 @@ export default function TaskList() {
   const setOpen = useContext(SetChangeContext);
   const setChange = useContext(SetChangeTaskContext);
   const search = useContext(SearchContext);
+
+  const [run, setRun] = useState(false);
 
   const removeTask = useCallback(
     (value) => () => {
@@ -46,9 +46,6 @@ export default function TaskList() {
     [complete],
   );
 
-  const { width, height } = useWindowSize();
-  const [run, setRun] = useState(false);
-
   if (complete.length !== 0) {
     return (
       <div>
@@ -75,7 +72,7 @@ export default function TaskList() {
   } else {
     return (
       <div>
-        <Confetti width={width} height={height} run={run} recycle={false} gravity={0.25} />
+        <Confetti run={run} />
         <Box
           m={3}
           p={2}
