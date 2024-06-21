@@ -19,14 +19,15 @@ export default function ModalAdd() {
 
   const [newTask, setNewTask] = useState({});
 
-  const handleTask = () => {
-    if (newTask !== undefined) {
+  const handleAddTask = () => {
+    if (Object.keys(newTask).length !== 0 && newTask.text.length !== 0) {
       setComplete((prev) => [...prev, newTask]);
       setOpen(false);
+      setNewTask({ text: '' });
     }
   };
 
-  const handleChange = (event) => {
+  const handleSetTask = (event) => {
     setNewTask({ id: new Date().getTime(), text: event.target.value, checked: false });
   };
 
@@ -61,12 +62,12 @@ export default function ModalAdd() {
             </IconButton>
           </Box>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 1, mt: 1 }}>
-            <CssTextField id="outlined-basic" label="The task for today" size="small" onBlur={handleChange} />
+            <CssTextField id="outlined-basic" label="The task for today" size="small" onBlur={handleSetTask} />
             <Box sx={{ display: 'flex', width: '100%', gap: 1, justifyContent: 'end' }}>
               <Button
                 variant="contained"
                 color="success"
-                onClick={handleTask}
+                onClick={handleAddTask}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
                 Add
