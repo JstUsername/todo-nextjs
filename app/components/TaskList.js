@@ -45,12 +45,12 @@ export default function TaskList() {
   );
 
   useEffect(() => {
-    if (complete.length !== 0) {
+    if (complete.length === 0) {
       setRun(true);
     }
   });
 
-  if (complete.length !== 0) {
+  if (complete.length !== 0 && complete[0] !== '') {
     return (
       <div>
         <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>

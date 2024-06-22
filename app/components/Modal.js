@@ -24,7 +24,7 @@ export default function ModalAdd() {
   // Function for Modal Add:
   const handleAddTask = () => {
     if (Object.keys(newTask).length !== 0 && newTask.text.length !== 0) {
-      setComplete((prev) => [...prev, newTask]);
+      setComplete((prev) => [...prev.filter((val) => val !== ''), newTask]);
       setOpen({ state: false, type: '' });
       setNewTask({ text: '' });
     }
