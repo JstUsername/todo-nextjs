@@ -9,9 +9,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
-import { SetToDoContext } from './providers/ContextToDo';
-import { ModalContext, SetModalContext } from './providers/ContextModal';
-import { ChangeTaskContext } from './providers/ContextChangeTask';
+import { SetToDoContext } from '@/app/providers/ContextToDo';
+import { ModalContext, SetModalContext } from '@/app/providers/ContextModal';
+import { ChangeTaskContext } from '@/app/providers/ContextChangeTask';
 
 export default function ModalAdd() {
   const change = useContext(ChangeTaskContext);

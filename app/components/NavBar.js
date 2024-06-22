@@ -13,8 +13,8 @@ import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import theme from '@/app/theme';
-import { SetModalContext } from './providers/ContextModal';
-import { SetSearchContext } from './providers/ContextSearch';
+import { SetModalContext } from '@/app/providers/ContextModal';
+import { SetSearchContext } from '@/app/providers/ContextSearch';
 
 export default function AppNavBar() {
   const setOpen = useContext(SetModalContext);
