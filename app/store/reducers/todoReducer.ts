@@ -11,7 +11,6 @@ export const todoReducer = (state = initialState, action: ToDoAction): any[] => 
       state = state.filter((val) => val !== '');
       return [...state, { id: new Date().getTime(), text: action.payload, checked: false }];
     case 'SET_CHANGE_TASK':
-      console.log(action.payload[0]);
       return state.map((val) =>
         val.id === action.payload[0].id ? { id: action.payload[0].id, text: action.payload[1] } : val,
       );

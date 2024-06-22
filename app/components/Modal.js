@@ -38,7 +38,6 @@ export default function ModalAdd() {
   };
 
   const handleSaveChange = () => {
-    console.log(change);
     if (!changeTask) return;
     if (changeTask !== change.text && changeTask !== '') {
       dispatch({ type: 'SET_CHANGE_TASK', payload: [change, changeTask] });
