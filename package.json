@@ -17,7 +17,6 @@
     "@mui/material": "^5.15.19",
     "@mui/material-nextjs": "^5.15.11",
     "@react-hook/window-size": "^3.1.1",
-    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "20.6.2",
     "lodash.debounce": "^4.0.8",
     "next": "13.5.1",
@@ -29,6 +28,7 @@
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^2.2.5",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react": "^18.3.3",
     "@types/react-redux": "^7.1.33",
     "prettier": "^3.2.5",
