@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Backdrop from '@mui/material/Backdrop';
@@ -9,29 +10,25 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
-import { SetToDoContext } from './providers/ContextToDo';
-import { ModalContext, SetModalContext } from './providers/ContextModal';
-import { ChangeTaskContext } from './providers/ContextChangeTask';
 
 export default function ModalAdd() {
-  const change = useContext(ChangeTaskContext);
-  const open = useContext(ModalContext);
-  const setOpen = useContext(SetModalContext);
-  const setComplete = useContext(SetToDoContext);
+  const dispatch = useDispatch();
+  const open = useSelector((state) => state.modal);
+  const change = useSelector((state) => state.change);
 
   const [newTask, setNewTask] = useState({});
 
   // Function for Modal Add:
   const handleAddTask = () => {
-    if (Object.keys(newTask).length !== 0 && newTask.text.length !== 0) {
-      setComplete((prev) => [...prev, newTask]);
-      setOpen({ state: false, type: '' });
+    if (newTask.length !== 0) {
+      dispatch({ type: 'ADD_TASK', payload: newTask });
+      dispatch({ type: 'CLOSE' });
       setNewTask({ text: '' });
     }
   };
 
   const handleSetTask = (event) => {
-    setNewTask({ id: new Date().getTime(), text: event.target.value, checked: false });
+    setNewTask(event.target.value);
   };
 
   // Function for Modal Change:
@@ -41,10 +38,11 @@ export default function ModalAdd() {
   };
 
   const handleSaveChange = () => {
+    console.log(change);
     if (!changeTask) return;
     if (changeTask !== change.text && changeTask !== '') {
-      setComplete((prev) => prev.map((val) => (val.id === change.id ? { id: change.id, text: changeTask } : val)));
-      setOpen({ state: false, type: '' });
+      dispatch({ type: 'SET_CHANGE_TASK', payload: [change, changeTask] });
+      dispatch({ type: 'CLOSE' });
     }
   };
 
@@ -53,7 +51,7 @@ export default function ModalAdd() {
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open.state}
-      onClose={() => setOpen({ state: false, type: '' })}
+      onClose={() => dispatch({ type: 'CLOSE' })}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{
@@ -73,7 +71,7 @@ export default function ModalAdd() {
               edge="start"
               color="primary.dark"
               aria-label="close"
-              onClick={() => setOpen({ state: false, type: '' })}
+              onClick={() => dispatch({ type: 'CLOSE' })}
             >
               <CloseIcon />
             </IconButton>
@@ -98,7 +96,7 @@ export default function ModalAdd() {
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => setOpen({ state: false, type: '' })}
+                onClick={() => dispatch({ type: 'CLOSE' })}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
                 Cancel

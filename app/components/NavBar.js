@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -12,17 +12,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
-import theme from '@/app/theme';
-import { SetModalContext } from './providers/ContextModal';
-import { SetSearchContext } from './providers/ContextSearch';
+import theme from '../theme';
 
 export default function AppNavBar() {
-  const setOpen = useContext(SetModalContext);
-  const setSearch = useContext(SetSearchContext);
+  const dispatch = useDispatch();
 
   const handleSearch = debounce((event) => {
-    setSearch(event.target.value);
-  }, 500);
+    dispatch({ type: 'CHANGE_SEARCH', payload: event.target.value });
+  }, 250);
 
   return (
     <div>
@@ -82,7 +79,7 @@ export default function AppNavBar() {
             <Button
               variant="contained"
               color="success"
-              onClick={() => setOpen({ state: true, type: 'add' })}
+              onClick={() => dispatch({ type: 'OPEN_ADD' })}
               sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               New task
