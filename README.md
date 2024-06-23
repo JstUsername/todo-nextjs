@@ -1,11 +1,12 @@
 # todo-nextjs
 
-Простое приложения для управления списком дел. Проект разработан с использованием Next.js, JavaScript, CSS и Material UI.
+Простое приложения для управления списком дел. Проект разработан с использованием Next.js, Redux, TypeScript, CSS и Material UI.
 
 ## Технологии
 
 - <img height="20" src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/5f8c622c-c217-4649-b0a9-7e0ee24bd704"> Next.js;
-- <img height="20" src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png"> JavaScript;
+- <img height="20" src="https://user-images.githubusercontent.com/25181517/187896150-cc1dcb12-d490-445c-8e4d-1275cd2388d6.png"> Redux;
+- <img height="20" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png"> TypeScript;
 - <img height="20" src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png"> CSS;
 - <img height="20" src="https://user-images.githubusercontent.com/25181517/189716630-fe6c084c-6c66-43af-aa49-64c8aea4a5c2.png"> Material UI;
 
