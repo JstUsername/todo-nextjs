@@ -26,7 +26,7 @@ export default function AppNavBar() {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="primary" sx={{ boxShadow: 'none' }}>
           <Toolbar>
-            <IconButton size="large" edge="start" aria-label="menu" color="primary.dark" sx={{ mr: 2 }}>
+            <IconButton size="large" edge="start" aria-label="menu" sx={{ mr: 2, color: theme.palette.primary.dark }}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" color="primary.dark" sx={{ flexGrow: 1 }}>
@@ -37,20 +37,20 @@ export default function AppNavBar() {
               <IconButton
                 size="large"
                 edge="start"
-                color="primary.dark"
                 aria-label="telegram"
                 href="https://t.me/JstUser"
                 target="_blank"
+                sx={{ color: theme.palette.primary.dark }}
               >
                 <TelegramIcon />
               </IconButton>
               <IconButton
                 size="large"
                 edge="start"
-                color="primary.dark"
                 aria-label="github"
                 href="https://github.com/JstUsername/todo-nextjs"
                 target="_blank"
+                sx={{ color: theme.palette.primary.dark }}
               >
                 <GitIcon />
               </IconButton>

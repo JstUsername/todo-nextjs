@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useTypeSelector } from '../hooks/useTypeSelector';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -9,20 +10,20 @@ import Confetti from './Confetti';
 
 export default function TaskList() {
   const dispatch = useDispatch();
-  const complete = useSelector((state) => state.todo);
-  const search = useSelector((state) => state.search);
+  const complete = useTypeSelector((state) => state.todo);
+  const search = useTypeSelector((state) => state.search);
 
-  const [run, setRun] = useState(false);
+  const [run, setRun] = useState<boolean>(false);
 
   const removeTask = useCallback(
-    (value) => () => {
+    (value: { id: number; text: string; checked: boolean }) => () => {
       dispatch({ type: 'REMOVE_TASK', payload: value });
     },
     [complete],
   );
 
   const handleClickChange = useCallback(
-    (value) => () => {
+    (value: { id: number; text: string; checked: boolean }) => () => {
       const currentIndex = complete.indexOf(value);
       dispatch({ type: 'CHANGE_TASK', payload: complete[currentIndex] });
       dispatch({ type: 'OPEN_CHANGE' });
@@ -31,7 +32,7 @@ export default function TaskList() {
   );
 
   const handleToggle = useCallback(
-    (value) => () => {
+    (value: { id: number; text: string; checked: boolean }) => () => {
       dispatch({ type: 'TOGGLE_TASK', payload: value });
     },
     [complete],
@@ -43,7 +44,7 @@ export default function TaskList() {
     }
   });
 
-  if (complete.length !== 0 && complete[0] !== '') {
+  if (complete.length !== 0 && complete[0].text !== '') {
     return (
       <div>
         <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>

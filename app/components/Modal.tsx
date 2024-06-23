@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useTypeSelector } from '../hooks/useTypeSelector';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Backdrop from '@mui/material/Backdrop';
@@ -13,27 +14,27 @@ import { styled } from '@mui/material/styles';
 
 export default function ModalAdd() {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.modal);
-  const change = useSelector((state) => state.change);
+  const open = useTypeSelector((state) => state.modal);
+  const change = useTypeSelector((state) => state.change);
 
   const [newTask, setNewTask] = useState({});
 
   // Function for Modal Add:
   const handleAddTask = () => {
-    if (newTask.length !== 0) {
+    if (Object.keys(newTask).length !== 0) {
       dispatch({ type: 'ADD_TASK', payload: newTask });
       dispatch({ type: 'CLOSE' });
       setNewTask({ text: '' });
     }
   };
 
-  const handleSetTask = (event) => {
+  const handleSetTask = (event: any) => {
     setNewTask(event.target.value);
   };
 
   // Function for Modal Change:
   const [changeTask, setChangeTask] = useState('');
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setChangeTask(event.target.value);
   };
 
@@ -68,9 +69,9 @@ export default function ModalAdd() {
             <IconButton
               size="large"
               edge="start"
-              color="primary.dark"
               aria-label="close"
               onClick={() => dispatch({ type: 'CLOSE' })}
+              sx={{ color: 'primary.dark' }}
             >
               <CloseIcon />
             </IconButton>
