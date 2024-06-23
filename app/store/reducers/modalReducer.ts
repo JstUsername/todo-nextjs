@@ -19,7 +19,7 @@ export const modalReducer = (state = initialState, action: ModalAction): ModalSt
     case 'OPEN_CHANGE':
       return { state: true, type: 'change' };
     case 'CLOSE':
-      return { state: false, type: '' };
+      return { state: false, type: state.type };
     default:
       return state;
   }
