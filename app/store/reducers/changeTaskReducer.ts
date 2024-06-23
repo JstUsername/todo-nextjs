@@ -1,11 +1,17 @@
 interface ChangeTaskAction {
   type: string;
-  payload: object;
+  payload: ChangeState;
 }
 
-const initialState: object = {};
+interface ChangeState {
+  id: number;
+  text: string;
+  checked: boolean;
+}
 
-export const changeTaskReducer = (state = initialState, action: ChangeTaskAction): object => {
+const initialState: ChangeState = { id: 0, text: '', checked: false };
+
+export const changeTaskReducer = (state = initialState, action: ChangeTaskAction): ChangeState => {
   switch (action.type) {
     case 'CHANGE_TASK':
       return action.payload;

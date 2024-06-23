@@ -5,7 +5,6 @@ interface ModalState {
 
 interface ModalAction {
   type: string;
-  payload: any[];
 }
 
 const initialState: ModalState = {
