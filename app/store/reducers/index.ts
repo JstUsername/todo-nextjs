@@ -10,3 +10,5 @@ export const rootReducer = combineReducers({
   change: changeTaskReducer,
   search: searchReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
