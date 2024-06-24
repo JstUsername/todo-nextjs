@@ -26,7 +26,7 @@ export default function ModalAdd() {
     if (!newTask) return;
     if (newTask.text.length !== 0) {
       setComplete((prev) => [...prev.filter((val) => val !== ''), newTask]);
-      setOpen({ state: false, type: '' });
+      setOpen((prev) => ({ state: false, type: prev.type }));
       setNewTask({ text: '' });
     }
   };
@@ -45,7 +45,7 @@ export default function ModalAdd() {
     if (!changeTask) return;
     if (changeTask !== change.text && changeTask !== '') {
       setComplete((prev) => prev.map((val) => (val.id === change.id ? { id: change.id, text: changeTask } : val)));
-      setOpen({ state: false, type: '' });
+      setOpen((prev) => ({ state: false, type: prev.type }));
     }
   };
 
@@ -54,7 +54,7 @@ export default function ModalAdd() {
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open.state}
-      onClose={() => setOpen({ state: false, type: '' })}
+      onClose={() => setOpen((prev) => ({ state: false, type: prev.type }))}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{
@@ -74,7 +74,7 @@ export default function ModalAdd() {
               edge="start"
               color="primary.dark"
               aria-label="close"
-              onClick={() => setOpen({ state: false, type: '' })}
+              onClick={() => setOpen((prev) => ({ state: false, type: prev.type }))}
             >
               <CloseIcon />
             </IconButton>
@@ -99,7 +99,7 @@ export default function ModalAdd() {
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => setOpen({ state: false, type: '' })}
+                onClick={() => setOpen((prev) => ({ state: false, type: prev.type }))}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
                 Cancel
