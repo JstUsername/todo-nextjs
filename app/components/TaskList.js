@@ -42,7 +42,7 @@ export default function TaskList() {
     if (complete.length === 0) {
       setRun(true);
     }
-  });
+  }, [complete]);
 
   if (complete.length !== 0 && complete[0] !== '') {
     return (
