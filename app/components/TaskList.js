@@ -19,30 +19,24 @@ export default function TaskList() {
 
   const [run, setRun] = useState(false);
 
-  const removeTask = useCallback(
-    (value) => () => {
+  //prettier-ignore
+  const removeTask = useCallback((value) => {
       setComplete((prev) => prev.filter((val) => val !== value));
-    },
-    [complete],
-  );
+  }, [complete]);
 
-  const handleClickChange = useCallback(
-    (value) => () => {
+  //prettier-ignore
+  const handleClickChange = useCallback((value) => {
       const currentIndex = complete.indexOf(value);
       setChange(complete[currentIndex]);
       setOpen({ state: true, type: 'change' });
-    },
-    [complete],
-  );
+  }, [complete]);
 
-  const handleToggle = useCallback(
-    (value) => () => {
+  //prettier-ignore
+  const handleToggle = useCallback((value)  => {
       const newComplete = (arr) =>
         arr.map((val) => (val === value ? { id: val.id, text: val.text, checked: !val.checked } : val));
       setComplete((prev) => newComplete(prev));
-    },
-    [complete],
-  );
+  }, [complete]);
 
   useEffect(() => {
     if (complete.length === 0) {
