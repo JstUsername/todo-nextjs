@@ -76,7 +76,7 @@ export default function ModalAdd() {
               <CloseIcon />
             </IconButton>
           </Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 1, mt: 1 }}>
+          <FooterStyledModal>
             <CssTextField
               id="outlined-basic"
               label="The task for today"
@@ -102,7 +102,7 @@ export default function ModalAdd() {
                 Cancel
               </Button>
             </Box>
-          </Box>
+          </FooterStyledModal>
         </StyledModal>
       </Fade>
     </Modal>
@@ -121,6 +121,14 @@ const StyledModal = styled(Box)`
     0 24px 38px 3px rgba(0, 0, 0, 0.14),
     0 9px 46px 8px rgba(0, 0, 0, 0.12);
   padding: 16px;
+`;
+
+const FooterStyledModal = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
 `;
 
 const CssTextField = styled(TextField)`
