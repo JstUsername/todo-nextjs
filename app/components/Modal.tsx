@@ -128,19 +128,19 @@ const CssTextField = styled(TextField)`
   & label.Mui-focused {
     color: #505050;
   },
-& .MuiInput-underline:after {
-  border-bottom-color: #737373;
-},
-& .MuiOutlinedInput-root {
-  & fieldset {
-    border-color: #737373;
+  & .MuiInput-underline:after {
+    border-bottom-color: #737373;
   },
-&:hover fieldset {
-  border-color: #383838;
-},
-&.Mui-focused fieldset {
-  border-color: #505050;
-  border-width: 1px;
-},
-},
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: #737373;
+    },
+    &:hover fieldset {
+      border-color: #383838;
+    },
+    &.Mui-focused fieldset {
+      border-color: #505050;
+      border-width: 1px;
+    },
+  },
 `;
