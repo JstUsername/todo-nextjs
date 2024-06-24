@@ -76,6 +76,7 @@ export default function AppNavBar() {
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleSearch}
+                theme={theme}
                 sx={{ width: '100%' }}
               />
             </Search>
@@ -112,11 +113,11 @@ const SearchIconWrapper = styled('div')`
   color: ${(props) => props.theme.palette.primary.dark};
 `;
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: 32,
-    transition: theme.transitions.create('width'),
-  },
-}));
+const StyledInputBase = styled(InputBase)`
+  color: inherit;
+  & .MuiInputBase-input {
+    padding: ${(props) => props.theme.spacing(1, 1, 1, 0)};
+    padding-left: 32px;
+    transition: ${(props) => props.theme.transitions.create('width')};
+  }
+`;
