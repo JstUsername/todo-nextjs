@@ -19,11 +19,12 @@ export default function ModalAdd() {
   const setOpen = useContext(SetModalContext);
   const setComplete = useContext(SetToDoContext);
 
-  const [newTask, setNewTask] = useState({});
+  const [newTask, setNewTask] = useState(null);
 
   // Function for Modal Add:
   const handleAddTask = () => {
-    if (Object.keys(newTask).length !== 0 && newTask.text.length !== 0) {
+    if (!newTask) return;
+    if (newTask.text.length !== 0) {
       setComplete((prev) => [...prev.filter((val) => val !== ''), newTask]);
       setOpen({ state: false, type: '' });
       setNewTask({ text: '' });
