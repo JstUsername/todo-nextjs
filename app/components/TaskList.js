@@ -44,30 +44,7 @@ export default function TaskList() {
     }
   }, [complete]);
 
-  if (complete.length !== 0 && complete[0] !== '') {
-    return (
-      <div>
-        <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>
-          <List dense sx={{ width: '100%' }} disablePadding>
-            {complete
-              .filter((val) => (search !== '' ? val.text.toLowerCase().includes(search.toLowerCase()) : val))
-              .map((value) => {
-                return (
-                  <Fade key={value.id}>
-                    <TaskItem
-                      value={value}
-                      handleToggle={handleToggle}
-                      handleClickChange={handleClickChange}
-                      removeTask={removeTask}
-                    />
-                  </Fade>
-                );
-              })}
-          </List>
-        </Box>
-      </div>
-    );
-  } else {
+  if (complete.length === 0 || complete[0] === '') {
     return (
       <div>
         <Confetti run={run} />
@@ -91,4 +68,26 @@ export default function TaskList() {
       </div>
     );
   }
+  return (
+    <div>
+      <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>
+        <List dense sx={{ width: '100%' }} disablePadding>
+          {complete
+            .filter((val) => (search !== '' ? val.text.toLowerCase().includes(search.toLowerCase()) : val))
+            .map((value) => {
+              return (
+                <Fade key={value.id}>
+                  <TaskItem
+                    value={value}
+                    handleToggle={handleToggle}
+                    handleClickChange={handleClickChange}
+                    removeTask={removeTask}
+                  />
+                </Fade>
+              );
+            })}
+        </List>
+      </Box>
+    </div>
+  );
 }
