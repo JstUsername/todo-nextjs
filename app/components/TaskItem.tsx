@@ -10,9 +10,9 @@ import ListItem from '@mui/material/ListItem';
 
 interface Props {
   value: { id: number; text: string; checked: boolean };
-  handleToggle: (value: { id: number; text: string; checked: boolean }) => () => void;
-  handleClickChange: (value: { id: number; text: string; checked: boolean }) => () => void;
-  removeTask: (value: { id: number; text: string; checked: boolean }) => () => void;
+  handleToggle: (value: { id: number; text: string; checked: boolean }) => void;
+  handleClickChange: (value: { id: number; text: string; checked: boolean }) => void;
+  removeTask: (value: { id: number; text: string; checked: boolean }) => void;
 }
 
 const TaskItem = forwardRef(
@@ -28,19 +28,19 @@ const TaskItem = forwardRef(
                 edge="end"
                 size="medium"
                 color="success"
-                onChange={handleToggle(value)}
+                onChange={() => handleToggle(value)}
                 checked={value.checked}
                 inputProps={{ 'aria-labelledby': labelId }}
                 sx={{ width: '48px', color: '#505050' }}
               />
-              <IconButton size="large" edge="start" color="error" aria-label="delete" onClick={removeTask(value)}>
+              <IconButton size="large" edge="start" color="error" aria-label="delete" onClick={() => removeTask(value)}>
                 <DeleteIcon />
               </IconButton>
             </Box>
           }
           disablePadding
         >
-          <ListItemButton onClick={handleClickChange(value)} sx={{ p: 2 }}>
+          <ListItemButton onClick={() => handleClickChange(value)} sx={{ p: 2 }}>
             <ListItemText
               id={labelId}
               primary={

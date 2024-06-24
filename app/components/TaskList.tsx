@@ -15,28 +15,22 @@ export default function TaskList() {
 
   const [run, setRun] = useState<boolean>(false);
 
-  const removeTask = useCallback(
-    (value: { id: number; text: string; checked: boolean }) => () => {
+  // prettier-ignore
+  const removeTask = useCallback((value: { id: number; text: string; checked: boolean }) => {
       dispatch({ type: 'REMOVE_TASK', payload: value });
-    },
-    [complete],
-  );
+    }, [complete]);
 
-  const handleClickChange = useCallback(
-    (value: { id: number; text: string; checked: boolean }) => () => {
+  // prettier-ignore
+  const handleClickChange = useCallback((value: { id: number; text: string; checked: boolean }) => {
       const currentIndex = complete.indexOf(value);
       dispatch({ type: 'CHANGE_TASK', payload: complete[currentIndex] });
       dispatch({ type: 'OPEN_CHANGE' });
-    },
-    [complete],
-  );
+  }, [complete]);
 
-  const handleToggle = useCallback(
-    (value: { id: number; text: string; checked: boolean }) => () => {
+  // prettier-ignore
+  const handleToggle = useCallback((value: { id: number; text: string; checked: boolean }) => {
       dispatch({ type: 'TOGGLE_TASK', payload: value });
-    },
-    [complete],
-  );
+    }, [complete]);
 
   useEffect(() => {
     if (complete.length === 0) {
