@@ -15,8 +15,7 @@ import { ToDoTask } from '../types/types';
 
 export default function ModalAdd() {
   const dispatch = useDispatch();
-  const open = useTypeSelector((state) => state.modal);
-  const change = useTypeSelector((state) => state.change);
+  const { modalOpen, modalType, change } = useTypeSelector((state) => state.modalChange);
 
   const [newTask, setNewTask] = useState<ToDoTask>({ id: -1, text: '', checked: false });
 
@@ -52,7 +51,7 @@ export default function ModalAdd() {
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      open={open.state}
+      open={modalOpen}
       onClose={() => dispatch({ type: 'CLOSE' })}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
@@ -62,11 +61,11 @@ export default function ModalAdd() {
         },
       }}
     >
-      <Fade in={open.state}>
+      <Fade in={modalOpen}>
         <StyledModal>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography id="transition-modal-title" variant="h6" component="h2" color="primary.dark">
-              {open.type === 'add' ? 'Add task' : 'Change task'}
+              {modalType === 'add' ? 'Add task' : 'Change task'}
             </Typography>
             <IconButton
               size="large"
@@ -82,18 +81,18 @@ export default function ModalAdd() {
             <CssTextField
               id="outlined-basic"
               label="The task for today"
-              defaultValue={open.type === 'add' ? '' : change.text}
+              defaultValue={modalType === 'add' ? '' : change.text}
               size="small"
-              onBlur={open.type === 'add' ? handleSetTask : handleChange}
+              onBlur={modalType === 'add' ? handleSetTask : handleChange}
             />
             <Box sx={{ display: 'flex', width: '100%', gap: 1, justifyContent: 'end' }}>
               <Button
                 variant="contained"
                 color="success"
-                onClick={open.type === 'add' ? handleAddTask : handleSaveChange}
+                onClick={modalType === 'add' ? handleAddTask : handleSaveChange}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
-                {open.type === 'add' ? 'Add' : 'Change'}
+                {modalType === 'add' ? 'Add' : 'Change'}
               </Button>
               <Button
                 variant="contained"

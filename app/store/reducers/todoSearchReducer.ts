@@ -1,36 +1,39 @@
-import { ToDoTask } from '../../types/types';
-import { ToDoAction } from '../../types/types';
-import { SearchAction } from '../../types/types';
+import { ToDoSearchState } from '../../types/types';
+import { ToDoSearchAction } from '../../types/types';
 
-const initialStateToDo: ToDoTask[] = [{ id: 0, text: '', checked: false }];
-const initialStateSearch: string = '';
-
-export const todoReducer = (state = initialStateToDo, action: ToDoAction): ToDoTask[] => {
-  switch (action.type) {
-    case 'ADD_TASK':
-      state = state.filter((val) => val.text !== '');
-      return [...state, action.payload];
-    case 'SET_CHANGE_TASK':
-      return state.map((val) =>
-        val.id === action.payload[0].id
-          ? { id: action.payload[0].id, text: action.payload[1], checked: action.payload[0].checked }
-          : val,
-      );
-    case 'REMOVE_TASK':
-      return state.filter((val) => val !== action.payload);
-    case 'TOGGLE_TASK':
-      return state.map((val) =>
-        val.id === action.payload.id ? { id: val.id, text: val.text, checked: !val.checked } : val,
-      );
-    default:
-      return state;
-  }
+const initialStateTodoSearch: ToDoSearchState = {
+  taskList: [{ id: 0, text: '', checked: false }],
+  search: '',
 };
 
-export const searchReducer = (state = initialStateSearch, action: SearchAction): string => {
+export const todoSearchReducer = (state = initialStateTodoSearch, action: ToDoSearchAction): ToDoSearchState => {
   switch (action.type) {
+    case 'ADD_TASK':
+      state = { taskList: state.taskList.filter((val) => val.text !== ''), search: state.search };
+      return { taskList: [...state.taskList, action.payload], search: state.search };
+    case 'SET_CHANGE_TASK':
+      return {
+        taskList: state.taskList.map((val) =>
+          val.id === action.payload[0].id
+            ? { id: action.payload[0].id, text: action.payload[1], checked: action.payload[0].checked }
+            : val,
+        ),
+        search: state.search,
+      };
+    case 'REMOVE_TASK':
+      return {
+        taskList: state.taskList.filter((val) => val !== action.payload),
+        search: state.search,
+      };
+    case 'TOGGLE_TASK':
+      return {
+        taskList: state.taskList.map((val) =>
+          val.id === action.payload.id ? { id: val.id, text: val.text, checked: !val.checked } : val,
+        ),
+        search: state.search,
+      };
     case 'CHANGE_SEARCH':
-      return action.payload;
+      return { taskList: state.taskList, search: action.payload };
     default:
       return state;
   }

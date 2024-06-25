@@ -11,35 +11,34 @@ import { ToDoTask } from '../types/types';
 
 export default function TaskList() {
   const dispatch = useDispatch();
-  const complete = useTypeSelector((state) => state.todo);
-  const search = useTypeSelector((state) => state.search);
+  const { taskList, search } = useTypeSelector((state) => state.todoSearch);
 
   const [run, setRun] = useState<boolean>(false);
 
   // prettier-ignore
   const removeTask = useCallback((removeTask: ToDoTask) => {
       dispatch({ type: 'REMOVE_TASK', payload: removeTask });
-    }, [complete]);
+    }, [taskList]);
 
   // prettier-ignore
   const handleClickChange = useCallback((changeTask: ToDoTask) => {
-      const currentIndex = complete.indexOf(changeTask);
-      dispatch({ type: 'CHANGE_TASK', payload: complete[currentIndex] });
+      const currentIndex = taskList.indexOf(changeTask);
+      dispatch({ type: 'CHANGE_TASK', payload: taskList[currentIndex] });
       dispatch({ type: 'OPEN_CHANGE' });
-  }, [complete]);
+  }, [taskList]);
 
   // prettier-ignore
   const handleToggle = useCallback((toggleTask: ToDoTask) => {
       dispatch({ type: 'TOGGLE_TASK', payload: toggleTask });
-    }, [complete]);
+    }, [taskList]);
 
   useEffect(() => {
-    if (complete.length === 0) {
+    if (taskList.length === 0) {
       setRun(true);
     }
-  }, [complete]);
+  }, [taskList]);
 
-  if (complete.length === 0 || complete[0].text === '') {
+  if (taskList.length === 0 || taskList[0].text === '') {
     return (
       <div>
         <Confetti run={run} />
@@ -67,7 +66,7 @@ export default function TaskList() {
     <div>
       <Box m={3} display="flex" alignItems="center" borderRadius={1} bgcolor={'#FFFFFF'}>
         <List dense sx={{ width: '100%' }} disablePadding>
-          {complete
+          {taskList
             .filter((val) => (search !== '' ? val.text.toLowerCase().includes(search.toLowerCase()) : val))
             .map((task) => {
               return (
