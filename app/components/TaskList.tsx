@@ -7,6 +7,7 @@ import List from '@mui/material/List';
 import Fade from '@mui/material/Fade';
 import TaskItem from './TaskItem';
 import Confetti from './Confetti';
+import { ToDoTask } from '../types/types';
 
 export default function TaskList() {
   const dispatch = useDispatch();
@@ -16,20 +17,20 @@ export default function TaskList() {
   const [run, setRun] = useState<boolean>(false);
 
   // prettier-ignore
-  const removeTask = useCallback((value: { id: number; text: string; checked: boolean }) => {
-      dispatch({ type: 'REMOVE_TASK', payload: value });
+  const removeTask = useCallback((removeTask: ToDoTask) => {
+      dispatch({ type: 'REMOVE_TASK', payload: removeTask });
     }, [complete]);
 
   // prettier-ignore
-  const handleClickChange = useCallback((value: { id: number; text: string; checked: boolean }) => {
-      const currentIndex = complete.indexOf(value);
+  const handleClickChange = useCallback((changeTask: ToDoTask) => {
+      const currentIndex = complete.indexOf(changeTask);
       dispatch({ type: 'CHANGE_TASK', payload: complete[currentIndex] });
       dispatch({ type: 'OPEN_CHANGE' });
   }, [complete]);
 
   // prettier-ignore
-  const handleToggle = useCallback((value: { id: number; text: string; checked: boolean }) => {
-      dispatch({ type: 'TOGGLE_TASK', payload: value });
+  const handleToggle = useCallback((toggleTask: ToDoTask) => {
+      dispatch({ type: 'TOGGLE_TASK', payload: toggleTask });
     }, [complete]);
 
   useEffect(() => {
@@ -68,11 +69,11 @@ export default function TaskList() {
         <List dense sx={{ width: '100%' }} disablePadding>
           {complete
             .filter((val) => (search !== '' ? val.text.toLowerCase().includes(search.toLowerCase()) : val))
-            .map((value) => {
+            .map((task) => {
               return (
-                <Fade key={value.id}>
+                <Fade key={task.id}>
                   <TaskItem
-                    value={value}
+                    task={task}
                     handleToggle={handleToggle}
                     handleClickChange={handleClickChange}
                     removeTask={removeTask}
