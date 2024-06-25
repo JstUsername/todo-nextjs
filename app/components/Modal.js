@@ -46,6 +46,7 @@ export default function ModalAdd() {
     if (changeTask !== change.text && changeTask !== '') {
       setComplete((prev) => prev.map((val) => (val.id === change.id ? { id: change.id, text: changeTask } : val)));
       setOpen((prev) => ({ state: false, type: prev.type }));
+      setChangeTask('');
     }
   };
 
