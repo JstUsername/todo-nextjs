@@ -7,40 +7,41 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
+import { ToDoTask } from '../types/types';
 
-interface Props {
-  value: { id: number; text: string; checked: boolean };
-  handleToggle: (value: { id: number; text: string; checked: boolean }) => void;
-  handleClickChange: (value: { id: number; text: string; checked: boolean }) => void;
-  removeTask: (value: { id: number; text: string; checked: boolean }) => void;
+interface TaskItemProps {
+  task: ToDoTask;
+  handleToggle: (toggleTask: ToDoTask) => void;
+  handleClickChange: (changeTask: ToDoTask) => void;
+  removeTask: (deleteTask: ToDoTask) => void;
 }
 
 const TaskItem = forwardRef(
-  ({ value, handleToggle, handleClickChange, removeTask }: Props, ref: Ref<HTMLDivElement>) => {
-    const labelId = `checkbox-list-secondary-label-${value.id}`;
+  ({ task, handleToggle, handleClickChange, removeTask }: TaskItemProps, ref: Ref<HTMLDivElement>) => {
+    const labelId = `checkbox-list-secondary-label-${task.id}`;
     return (
       <div ref={ref}>
         <ListItem
-          key={value.id}
+          key={task.id}
           secondaryAction={
             <Box sx={{ display: 'flex', gap: 2, mr: -1 }}>
               <Checkbox
                 edge="end"
                 size="medium"
                 color="success"
-                onChange={() => handleToggle(value)}
-                checked={value.checked}
+                onChange={() => handleToggle(task)}
+                checked={task.checked}
                 inputProps={{ 'aria-labelledby': labelId }}
                 sx={{ width: '48px', color: '#505050' }}
               />
-              <IconButton size="large" edge="start" color="error" aria-label="delete" onClick={() => removeTask(value)}>
+              <IconButton size="large" edge="start" color="error" aria-label="delete" onClick={() => removeTask(task)}>
                 <DeleteIcon />
               </IconButton>
             </Box>
           }
           disablePadding
         >
-          <ListItemButton onClick={() => handleClickChange(value)} sx={{ p: 2 }}>
+          <ListItemButton onClick={() => handleClickChange(task)} sx={{ p: 2 }}>
             <ListItemText
               id={labelId}
               primary={
@@ -50,10 +51,10 @@ const TaskItem = forwardRef(
                     maxWidth={'fit-content'}
                     whiteSpace={'wrap'}
                     color={'primary.dark'}
-                    className={value.checked ? 'strikethrough' : ''}
+                    className={task.checked ? 'strikethrough' : ''}
                     sx={{ wordWrap: 'break-word' }}
                   >
-                    {value.text}
+                    {task.text}
                   </Typography>
                 </>
               }
