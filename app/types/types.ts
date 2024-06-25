@@ -6,7 +6,7 @@ export interface ToDoTask {
 
 interface AddTaskAction {
   type: 'ADD_TASK';
-  payload: string;
+  payload: ToDoTask;
 }
 interface SetChangeTaskAction {
   type: 'SET_CHANGE_TASK';

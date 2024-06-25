@@ -11,29 +11,30 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
+import { ToDoTask } from '../types/types';
 
 export default function ModalAdd() {
   const dispatch = useDispatch();
   const open = useTypeSelector((state) => state.modal);
   const change = useTypeSelector((state) => state.change);
 
-  const [newTask, setNewTask] = useState({});
+  const [newTask, setNewTask] = useState<ToDoTask>({ id: -1, text: '', checked: false });
 
   // Function for Modal Add:
   const handleAddTask = () => {
-    if (Object.keys(newTask).length !== 0) {
+    if (newTask.text.length !== 0) {
       dispatch({ type: 'ADD_TASK', payload: newTask });
       dispatch({ type: 'CLOSE' });
-      setNewTask({ text: '' });
+      setNewTask({ id: -1, text: '', checked: false });
     }
   };
 
   const handleSetTask = (event: any) => {
-    setNewTask(event.target.value);
+    setNewTask({ id: new Date().getTime(), text: event.target.value, checked: false });
   };
 
   // Function for Modal Change:
-  const [changeTask, setChangeTask] = useState('');
+  const [changeTask, setChangeTask] = useState<string>('');
   const handleChange = (event: any) => {
     setChangeTask(event.target.value);
   };
@@ -43,6 +44,7 @@ export default function ModalAdd() {
     if (changeTask !== change.text && changeTask !== '') {
       dispatch({ type: 'SET_CHANGE_TASK', payload: [change, changeTask] });
       dispatch({ type: 'CLOSE' });
+      setChangeTask('');
     }
   };
 

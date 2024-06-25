@@ -9,7 +9,7 @@ export const todoReducer = (state = initialStateToDo, action: ToDoAction): ToDoT
   switch (action.type) {
     case 'ADD_TASK':
       state = state.filter((val) => val.text !== '');
-      return [...state, { id: new Date().getTime(), text: action.payload, checked: false }];
+      return [...state, action.payload];
     case 'SET_CHANGE_TASK':
       return state.map((val) =>
         val.id === action.payload[0].id
@@ -19,7 +19,9 @@ export const todoReducer = (state = initialStateToDo, action: ToDoAction): ToDoT
     case 'REMOVE_TASK':
       return state.filter((val) => val !== action.payload);
     case 'TOGGLE_TASK':
-      return state.map((val) => (val === action.payload ? { id: val.id, text: val.text, checked: !val.checked } : val));
+      return state.map((val) =>
+        val.id === action.payload.id ? { id: val.id, text: val.text, checked: !val.checked } : val,
+      );
     default:
       return state;
   }
