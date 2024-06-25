@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-import { modalReducer } from './modalReducer';
-import { todoReducer } from './todoReducer';
-import { changeTaskReducer } from './changeTaskReducer';
-import { searchReducer } from './searchReducer';
+import { modalReducer, changeTaskReducer } from './modalReducerChangeTask';
+import { todoReducer, searchReducer } from './todoSearchReducer';
 
 export const rootReducer = combineReducers({
   todo: todoReducer,
