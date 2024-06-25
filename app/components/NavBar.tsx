@@ -19,7 +19,7 @@ export default function AppNavBar() {
 
   const handleSearch = debounce((event) => {
     dispatch({ type: 'CHANGE_SEARCH', payload: event.target.value });
-  }, 250);
+  }, 500);
 
   return (
     <div>
