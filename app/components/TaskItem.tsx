@@ -22,7 +22,6 @@ const TaskItem = forwardRef(
     return (
       <div ref={ref}>
         <ListItem
-          key={task.id}
           secondaryAction={
             <Box sx={{ display: 'flex', gap: 2, mr: -1 }}>
               <Checkbox
