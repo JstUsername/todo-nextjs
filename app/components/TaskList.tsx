@@ -88,9 +88,7 @@ export default function TaskList() {
               </motion.div>
             </Box>
           </motion.div>
-        ) : (
-          ''
-        )}
+        ) : null}
       </AnimatePresence>
       <Box
         m={3}
@@ -126,7 +124,7 @@ export default function TaskList() {
                       </motion.div>
                     );
                   })
-              : ''}
+              : null}
           </AnimatePresence>
         </List>
       </Box>
