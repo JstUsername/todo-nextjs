@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -12,16 +12,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import GitIcon from '@mui/icons-material/GitHub';
 import TelegramIcon from '@mui/icons-material/Telegram';
-import theme from '@/app/theme';
-import { SetModalContext } from '@/app/providers/ContextModal';
-import { SetSearchContext } from '@/app/providers/ContextSearch';
+import theme from '../theme';
 
 export default function AppNavBar() {
-  const setOpen = useContext(SetModalContext);
-  const setSearch = useContext(SetSearchContext);
+  const dispatch = useDispatch();
 
   const handleSearch = debounce((event) => {
-    setSearch(event.target.value);
+    dispatch({ type: 'CHANGE_SEARCH', payload: event.target.value });
   }, 500);
 
   return (
@@ -29,7 +26,7 @@ export default function AppNavBar() {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="primary" sx={{ boxShadow: 'none' }}>
           <Toolbar>
-            <IconButton size="large" edge="start" aria-label="menu" color="primary.dark" sx={{ mr: 2 }}>
+            <IconButton size="large" edge="start" aria-label="menu" sx={{ mr: 2, color: theme.palette.primary.dark }}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" color="primary.dark" sx={{ flexGrow: 1 }}>
@@ -40,20 +37,20 @@ export default function AppNavBar() {
               <IconButton
                 size="large"
                 edge="start"
-                color="primary.dark"
                 aria-label="telegram"
                 href="https://t.me/JstUser"
                 target="_blank"
+                sx={{ color: theme.palette.primary.dark }}
               >
                 <TelegramIcon />
               </IconButton>
               <IconButton
                 size="large"
                 edge="start"
-                color="primary.dark"
                 aria-label="github"
                 href="https://github.com/JstUsername/todo-nextjs"
                 target="_blank"
+                sx={{ color: theme.palette.primary.dark }}
               >
                 <GitIcon />
               </IconButton>
@@ -73,6 +70,7 @@ export default function AppNavBar() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
+                theme={theme}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleSearch}
@@ -83,7 +81,7 @@ export default function AppNavBar() {
             <Button
               variant="contained"
               color="success"
-              onClick={() => setOpen({ state: true, type: 'add' })}
+              onClick={() => dispatch({ type: 'OPEN_ADD' })}
               sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               New task

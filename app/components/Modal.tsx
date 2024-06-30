@@ -1,4 +1,6 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useTypeSelector } from '../hooks/useTypeSelector';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Backdrop from '@mui/material/Backdrop';
@@ -9,43 +11,38 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
-import { SetToDoContext } from '@/app/providers/ContextToDo';
-import { ModalContext, SetModalContext } from '@/app/providers/ContextModal';
-import { ChangeTaskContext } from '@/app/providers/ContextChangeTask';
+import { ToDoTask } from '../types/types';
 
 export default function ModalAdd() {
-  const change = useContext(ChangeTaskContext);
-  const open = useContext(ModalContext);
-  const setOpen = useContext(SetModalContext);
-  const setComplete = useContext(SetToDoContext);
+  const dispatch = useDispatch();
+  const { modalOpen, modalType, change } = useTypeSelector((state) => state.modalChange);
 
-  const [newTask, setNewTask] = useState(null);
+  const [newTask, setNewTask] = useState<ToDoTask>({ id: -1, text: '', checked: false });
 
   // Function for Modal Add:
   const handleAddTask = () => {
-    if (!newTask) return;
     if (newTask.text.length !== 0) {
-      setComplete((prev) => [...prev.filter((val) => val !== ''), newTask]);
-      setOpen((prev) => ({ state: false, type: prev.type }));
-      setNewTask({ text: '' });
+      dispatch({ type: 'ADD_TASK', payload: newTask });
+      dispatch({ type: 'CLOSE' });
+      setNewTask({ id: -1, text: '', checked: false });
     }
   };
 
-  const handleSetTask = (event) => {
+  const handleSetTask = (event: any) => {
     setNewTask({ id: new Date().getTime(), text: event.target.value, checked: false });
   };
 
   // Function for Modal Change:
-  const [changeTask, setChangeTask] = useState('');
-  const handleChange = (event) => {
+  const [changeTask, setChangeTask] = useState<string>('');
+  const handleChange = (event: any) => {
     setChangeTask(event.target.value);
   };
 
   const handleSaveChange = () => {
     if (!changeTask) return;
     if (changeTask !== change.text && changeTask !== '') {
-      setComplete((prev) => prev.map((val) => (val.id === change.id ? { id: change.id, text: changeTask } : val)));
-      setOpen((prev) => ({ state: false, type: prev.type }));
+      dispatch({ type: 'SET_CHANGE_TASK', payload: [change, changeTask] });
+      dispatch({ type: 'CLOSE' });
       setChangeTask('');
     }
   };
@@ -54,8 +51,8 @@ export default function ModalAdd() {
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      open={open.state}
-      onClose={() => setOpen((prev) => ({ state: false, type: prev.type }))}
+      open={modalOpen}
+      onClose={() => dispatch({ type: 'CLOSE' })}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{
@@ -64,18 +61,18 @@ export default function ModalAdd() {
         },
       }}
     >
-      <Fade in={open.state}>
+      <Fade in={modalOpen}>
         <StyledModal>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography id="transition-modal-title" variant="h6" component="h2" color="primary.dark">
-              {open.type === 'add' ? 'Add task' : 'Change task'}
+              {modalType === 'add' ? 'Add task' : 'Change task'}
             </Typography>
             <IconButton
               size="large"
               edge="start"
-              color="primary.dark"
               aria-label="close"
-              onClick={() => setOpen((prev) => ({ state: false, type: prev.type }))}
+              onClick={() => dispatch({ type: 'CLOSE' })}
+              sx={{ color: 'primary.dark' }}
             >
               <CloseIcon />
             </IconButton>
@@ -84,23 +81,23 @@ export default function ModalAdd() {
             <CssTextField
               id="outlined-basic"
               label="The task for today"
-              defaultValue={open.type === 'add' ? '' : change.text}
+              defaultValue={modalType === 'add' ? '' : change.text}
               size="small"
-              onBlur={open.type === 'add' ? handleSetTask : handleChange}
+              onBlur={modalType === 'add' ? handleSetTask : handleChange}
             />
             <Box sx={{ display: 'flex', width: '100%', gap: 1, justifyContent: 'end' }}>
               <Button
                 variant="contained"
                 color="success"
-                onClick={open.type === 'add' ? handleAddTask : handleSaveChange}
+                onClick={modalType === 'add' ? handleAddTask : handleSaveChange}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
-                {open.type === 'add' ? 'Add' : 'Change'}
+                {modalType === 'add' ? 'Add' : 'Change'}
               </Button>
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => setOpen((prev) => ({ state: false, type: prev.type }))}
+                onClick={() => dispatch({ type: 'CLOSE' })}
                 sx={{ color: 'primary.main', whiteSpace: 'nowrap', flexShrink: 0 }}
               >
                 Cancel
